@@ -8,3 +8,5 @@ node_modules/
 # Generated on build
 /generated/
 /public/
+# Local Netlify folder
+.netlify

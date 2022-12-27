@@ -9,8 +9,10 @@
     "file-loader": "^6.2.0",
     "handlebars": "^4.7.7",
     "handlebars-loader": "^1.7.1",
+    "html-webpack-harddisk-plugin": "^2.0.0",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.4.4",
+    "netlify-cli": "^12.5.0",
     "prettier": "^2.4.1",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",
@@ -22,10 +24,11 @@
     "webpack-dev-server": "^4.5.0"
   },
   "scripts": {
-    "copy:redirects": "cp ./_redirects dist",
+    "copy:redirects": "cp ./_redirects public",
     "fetch:airtable": "node ./scripts/fetchAirtableData.js",
-    "build": "yarn run build:prod && webpack --mode=production --node-env=production && yarn run copy:redirects",
-    "watch": "webpack serve"
+    "clean": "rm -rf public/",
+    "build": "yarn run clean && yarn run fetch:airtable && webpack --mode=production --node-env=production && yarn run copy:redirects",
+    "watch": "yarn run clean && netlify dev:exec yarn run fetch:airtable && webpack serve"
   },
   "dependencies": {
     "airtable": "^0.11.6",

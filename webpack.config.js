@@ -3,33 +3,32 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+
+const clubsById = require('./generated/clubs.json')
 
 const isProduction = process.env.NODE_ENV == "production";
-
-const pages = [
-  { title: "Law Office of Wan Cha, Esq., LLC", filename: "index" },
-  { title: "Team | Law Office of Wan Cha", filename: "team" },
-  { title: "Practice | Law Office of Wan Cha", filename: "practice" },
-  { title: "Contact | Law Office of Wan Cha", filename: "contact" },
-];
 
 const config = {
   entry: "./src/scripts/index.ts",
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "public"),
   },
   devtool: "eval-source-map",
   plugins: [
     new MiniCssExtractPlugin({}),
-    ...pages.map(
-      (page) =>
+    new HtmlWebpackHarddiskPlugin(),
+    ...Object.entries(clubsById).map(
+      ([id, club]) =>
         new HtmlWebpackPlugin({
+          alwaysWriteToDisk: true,
           inject: false,
-          title: page.title,
-          filename: `${page.filename}.html`,
-          template: `src/html/${page.filename}.hbs`,
+          title: club.name,
+          filename: `./tt/${club.slug || id}.html`,
+          template: `src/html/pages/template-club.hbs`,
           templateParameters: {
-            t: require("./src/content.json"),
+            id,
+            club
           },
         })
     ),

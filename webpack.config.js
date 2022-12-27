@@ -6,6 +6,25 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 const clubsById = require('./generated/clubs.json')
+const corePages = [
+  {
+    title: 'TT for Two', filename: './index.html',
+    template: `src/html/pages/index.hbs`,
+    data: {}
+  }
+]
+const allPages = [
+  ...corePages,
+  ...Object.entries(clubsById).map(([id, club]) => ({
+    title: club.name,
+    filename: `./tt/${club.slug || id}.html`,
+    template: `src/html/pages/template-club.hbs`,
+    data: {
+      id,
+      club
+    },
+  }))
+]
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -18,18 +37,15 @@ const config = {
   plugins: [
     new MiniCssExtractPlugin({}),
     new HtmlWebpackHarddiskPlugin(),
-    ...Object.entries(clubsById).map(
-      ([id, club]) =>
+    ...allPages.map(
+      (page) =>
         new HtmlWebpackPlugin({
           alwaysWriteToDisk: true,
           inject: false,
-          title: club.name,
-          filename: `./tt/${club.slug || id}.html`,
-          template: `src/html/pages/template-club.hbs`,
-          templateParameters: {
-            id,
-            club
-          },
+          title: page.name,
+          filename: page.filename,
+          template: page.template,
+          templateParameters: page.data,
         })
     ),
   ],

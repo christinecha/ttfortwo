@@ -1,0 +1,10 @@
+# Utility
+*.log
+**/*.DS_Store
+
+# Dependencies
+node_modules/
+
+# Generated on build
+/generated/
+/public/

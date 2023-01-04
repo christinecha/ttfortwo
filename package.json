@@ -25,10 +25,12 @@
   },
   "scripts": {
     "copy:redirects": "cp ./_redirects public",
+    "copy:assets": "cp ./src/assets public/assets",
     "fetch:airtable": "node ./scripts/fetchAirtableData.js",
     "clean": "rm -rf public/",
-    "build": "yarn run clean && yarn run fetch:airtable && webpack --mode=production --node-env=production && yarn run copy:redirects",
-    "watch": "yarn run clean && netlify dev:exec yarn run fetch:airtable && webpack serve"
+    "build": "netlify dev:exec yarn run fetch:airtable && webpack --mode=production && yarn run copy:redirects",
+    "watch": "netlify dev:exec yarn run fetch:airtable && webpack serve",
+    "watch:offline": "webpack serve"
   },
   "dependencies": {
     "airtable": "^0.11.6",

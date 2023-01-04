@@ -3,34 +3,46 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin");
 
-const clubsById = require('./generated/clubs.json')
+const clubsById = require("./generated/clubs.json");
 const corePages = [
   {
-    title: 'TT for Two', filename: './index.html',
+    title: "TT for Two",
+    path: "",
     template: `src/html/pages/index.hbs`,
-    data: {}
-  }
-]
+    data: {
+      clubs: Object.values(clubsById),
+    },
+  },
+  {
+    title: "Where We've Played",
+    path: "/map",
+    template: `src/html/pages/map.hbs`,
+    data: {
+      clubs: Object.values(clubsById),
+    },
+  },
+];
 const allPages = [
   ...corePages,
   ...Object.entries(clubsById).map(([id, club]) => ({
     title: club.name,
-    filename: `./tt/${club.slug || id}.html`,
+    path: `/tt/${club.slug || id}`,
     template: `src/html/pages/template-club.hbs`,
     data: {
       id,
-      club
+      club,
     },
-  }))
-]
+  })),
+];
 
 const isProduction = process.env.NODE_ENV == "production";
 
 const config = {
   entry: "./src/scripts/index.ts",
   output: {
+    filename: "index.js",
     path: path.resolve(__dirname, "public"),
   },
   devtool: "eval-source-map",
@@ -40,10 +52,11 @@ const config = {
     ...allPages.map(
       (page) =>
         new HtmlWebpackPlugin({
+          cache: false,
           alwaysWriteToDisk: true,
           inject: false,
           title: page.name,
-          filename: page.filename,
+          filename: `.${page.path}/index.html`,
           template: page.template,
           templateParameters: page.data,
         })
@@ -88,7 +101,7 @@ module.exports = () => {
     config.mode = "development";
     config.devServer = {
       static: {
-        directory: path.join(__dirname, "dist"),
+        directory: path.join(__dirname, "public"),
       },
       compress: true,
       historyApiFallback: {

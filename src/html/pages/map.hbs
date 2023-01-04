@@ -1,0 +1,29 @@
+{{> ../partials/html-start.hbs page="map" }}
+
+<section class="intro">
+  <div class="content center">
+    <div class="content-inner">
+      <h1>
+        Where We've Played
+      </h1>
+
+      <section class="map">
+        <br />
+        <br />
+        <br />
+        (interactive map)
+        <br />
+        <br />
+        <br />
+      </section>
+
+      <ul>
+        {{#each clubs}}
+          <li>{{ this.name }}</li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</section>
+
+{{> ../partials/html-end.hbs }}

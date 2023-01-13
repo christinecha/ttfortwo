@@ -10,15 +10,36 @@ body[data-page="map"] {
   }
   
   .list {
+    max-height: 600px;
+    overflow-y: scroll;
     flex: 1;
 
-    li {
+    .club {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       cursor: pointer;
+      padding: 10px;
 
       &:hover {
         text-decoration: underline;
+      }
+
+      .tags {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        margin: -5px;
+
+        label {
+          display: block;
+          font-size: 10px;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          background-color: yellow;
+          color: #333;
+          margin: 5px;
+        }
       }
     }
   }

@@ -5,6 +5,11 @@
     <img src="/assets/map.png" alt="Map" />
     <img src="/assets/map-info.png" alt="Where we've played" />
   </h1>
+
+  <div>
+    <p>filter | sort</p>
+  </div>
+
   <div class="content center">
     <div class="content-inner">
       <section class="map">
@@ -17,6 +22,15 @@
           {{#each clubs}}
             <li class="club" data-slug="{{this.slug}}">
               {{ this.name }}
+
+              <span class="tags">
+                {{#each this.tags}}
+                  <label>
+                    {{this}}
+                  </label>
+                {{/each}}
+              </span>
+         
             </li>
           {{/each}}
         </ul>

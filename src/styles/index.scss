@@ -10,11 +10,40 @@
   src: local("Inter"), url("/assets/Inter-Bold.ttf") format("opentype");
 }
 
+$menu-trigger-size: 100px;
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
 body {
   padding: 0;
   margin: 0;
   font-family: Inter;
   box-sizing: border-box;
+  height: 100%;
+  display: flex;
+
+  > .layout {
+    flex: 1;
+    padding: 20px;
+  }
+
+  &[data-page="index"] {
+    #menu {
+      display: block;
+    }
+  }
+
+  h1 {
+    padding-right: $menu-trigger-size;
+    margin: 0;
+    margin-bottom: 30px;
+  }
 }
 
 ul {
@@ -23,5 +52,24 @@ ul {
   list-style: none;
 }
 
-@import "./header.scss";
+button {
+  background-color: transparent;
+  box-sizing: none;
+  border: none;
+  cursor: pointer;
+}
+
+img[alt="About"] { max-width: 190px; }
+img[alt="About"] ~ img { max-width: 300px; }
+
+img[alt="Map"] { max-width: 150px; }
+img[alt="Map"] ~ img { max-width: 300px; }
+
+img[alt="Guides"] { max-width: 200px; }
+img[alt="Guides"] ~ img { max-width: 300px; }
+
+img[alt="Contact"] { max-width: 230px; }
+img[alt="Contact"] ~ img { max-width: 300px; }
+
+@import "./menu.scss";
 @import "./map.scss";

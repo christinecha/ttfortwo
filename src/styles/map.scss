@@ -1,4 +1,50 @@
-.map {
-  border: 1px solid gray;
-  padding: 40px;
+body[data-page="map"] {
+  h1 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content-inner {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .list {
+    flex: 1;
+
+    li {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .map {
+    flex: 1;
+    position: relative;
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+  
+    > img {
+      width: 100%;
+      z-index: 3; // mapbox logo is 2
+      pointer-events: none;
+    }
+  
+    #mapbox-container {
+      position:absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
 }
+
+
+

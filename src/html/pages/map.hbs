@@ -1,27 +1,26 @@
 {{> ../partials/html-start.hbs page="map" }}
 
 <section class="intro">
+  <h1>
+    <img src="/assets/map.png" alt="Map" />
+    <img src="/assets/map-info.png" alt="Where we've played" />
+  </h1>
   <div class="content center">
     <div class="content-inner">
-      <h1>
-        Where We've Played
-      </h1>
-
       <section class="map">
-        <br />
-        <br />
-        <br />
-        (interactive map)
-        <br />
-        <br />
-        <br />
+        <img src="/assets/map-border.png" />
+        <div id="mapbox-container"></div>
       </section>
 
-      <ul>
-        {{#each clubs}}
-          <li>{{ this.name }}</li>
-        {{/each}}
-      </ul>
+      <section class="list">
+        <ul>
+          {{#each clubs}}
+            <li class="club" data-slug="{{this.slug}}">
+              {{ this.name }}
+            </li>
+          {{/each}}
+        </ul>
+      </section>
     </div>
   </div>
 </section>

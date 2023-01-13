@@ -20,7 +20,9 @@ const tableConfigs = [
       "Tags": "tags",
       "Slug": "slug",
       "Address": "address",
-      "Website": "url"
+      "Website": "url",
+      "lat": "lat",
+      "lng": "lng",
     }
 
   }

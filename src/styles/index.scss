@@ -40,7 +40,6 @@ body {
   }
 
   h1 {
-    padding-right: $menu-trigger-size;
     margin: 0;
     margin-bottom: 30px;
   }
@@ -60,16 +59,16 @@ button {
 }
 
 img[alt="About"] { max-width: 190px; }
-img[alt="About"] ~ img { max-width: 300px; }
+img[alt="About"] ~ img { max-width: 280px; }
 
 img[alt="Map"] { max-width: 150px; }
-img[alt="Map"] ~ img { max-width: 300px; }
+img[alt="Map"] ~ img { max-width: 260px; }
 
 img[alt="Guides"] { max-width: 200px; }
 img[alt="Guides"] ~ img { max-width: 300px; }
 
 img[alt="Contact"] { max-width: 230px; }
-img[alt="Contact"] ~ img { max-width: 300px; }
+img[alt="Contact"] ~ img { max-width: 350px; }
 
 @import "./menu.scss";
 @import "./map.scss";

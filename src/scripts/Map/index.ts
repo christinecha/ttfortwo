@@ -3,25 +3,12 @@ import mapboxgl from "mapbox-gl";
 // import { getGeocode, getLatLng } from "use-places-autocomplete";
 // import { getDistance } from "geolib";
 import clubsById from "../../../generated/clubs.json";
-import { addClubPreview } from "./util";
+import { addClubPreview, getMarkerElement } from "./util";
 
 // const MOBILE_VIEW = {
 //   LIST: { name: "List" },
 //   MAP: { name: "Map" },
 // };
-
-const getMarkerImage = (club: any, width: number) => {
-  let stars = 0;
-  if (club.distinction === "★") stars = 1;
-  if (club.distinction === "★★") stars = 2;
-  if (club.distinction === "★★★") stars = 3;
-
-  const markerImg = document.createElement("img");
-  markerImg.width = width;
-  markerImg.src = stars ? `/assets/marker-${stars}.png` : "/assets/marker.png";
-
-  return markerImg;
-};
 
 enum VIEW {
   MAP,
@@ -89,35 +76,29 @@ export class Map {
       const { lat, lng } = club as any;
       return lat && lng;
     });
-    const rand = Math.floor(Math.random() * mappableClubs.length);
-    const randomClub = mappableClubs[rand];
 
     const map = new mapboxgl.Map({
       container: "mapbox-container", // container ID
       style: "mapbox://styles/mapbox/streets-v12", // style URL
-      center: [randomClub.lng, randomClub.lat], // starting position [lng, lat]
+      center: [-73.7893326442353, 41.1326998386741], // wttc
       zoom: 0.8, // starting zoom
     });
 
     mappableClubs.forEach((club) => {
       const { lat, lng } = club as any;
       const clubLngLat = new mapboxgl.LngLat(parseFloat(lng), parseFloat(lat));
+      const markerEl = getMarkerElement(club);
 
-      const element = document.createElement("div");
-      element.classList.add("marker");
-      const markerImg = getMarkerImage(club, 36);
-      element.appendChild(markerImg);
-
-      element.addEventListener("click", () => {
+      markerEl.addEventListener("click", () => {
         addClubPreview(club, this.map);
         Array.from(document.querySelectorAll(".marker")).forEach((m) => {
-          (m as HTMLDivElement).dataset.isActive = String(m === element);
+          (m as HTMLDivElement).dataset.isActive = String(m === markerEl);
         });
       });
 
       // Create a new marker.
       const marker = new mapboxgl.Marker({
-        element,
+        element: markerEl,
         anchor: "bottom",
       })
         .setLngLat(clubLngLat)
@@ -134,7 +115,7 @@ export class Map {
     clubs.forEach((club) => {
       const clubEl = clubEls.find((el) => el.dataset.slug === club.slug);
       if (clubEl) {
-        const listImg = getMarkerImage(club, 24);
+        const listImg = getMarkerElement(club);
         clubEl.prepend(listImg);
         // clubEl.addEventListener("click", () => {
         //   map.setCenter(clubLngLat);

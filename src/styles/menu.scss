@@ -1,11 +1,30 @@
 #menu-trigger {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 10px;
+  right: 10px;
   width: $menu-trigger-size;
+  height: $menu-trigger-size;
+
+  &:hover {
+    img:nth-child(1) {
+      visibility: hidden;
+    }
+
+    img:nth-child(2) {
+      visibility: visible;
+    }
+  }
 
   img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100%;
+
+    &:nth-child(2) {
+      visibility: hidden;
+    }
   }
 }
 

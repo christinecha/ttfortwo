@@ -12,8 +12,25 @@ import "../../assets/contact.png";
 import "../../assets/contact-info.png";
 import "../../assets/guides.png";
 import "../../assets/guides-info.png";
-import "../../assets/marker.png";
-import "../../assets/marker-1.png";
-import "../../assets/marker-2.png";
-import "../../assets/marker-3.png";
+
+import "../../assets/marker-pink.png";
+import "../../assets/marker-black.png";
+import "../../assets/marker-star-1.png";
+import "../../assets/marker-star-2.png";
+import "../../assets/marker-star-3.png";
 import "../../assets/map-border.png";
+
+import "../../assets/speech-bubble-left.png";
+import "../../assets/speech-bubble-right.png";
+
+import "../../assets/menu.png";
+import "../../assets/menu-color.png";
+
+import "../../assets/badge-border.png";
+import "../../assets/badge-bar-restaurant.png";
+import "../../assets/badge-closed.png";
+import "../../assets/badge-permanent.png";
+import "../../assets/badge-private.png";
+import "../../assets/badge-public.png";
+import "../../assets/badge-table.png";
+import "../../assets/badge-transient.png";

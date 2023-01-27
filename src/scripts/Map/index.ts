@@ -182,7 +182,8 @@ export class Map {
       markerEl.addEventListener("click", () => {
         addClubPreview(club, this.map);
         Array.from(document.querySelectorAll(".marker")).forEach((m) => {
-          (m as HTMLDivElement).dataset.isActive = String(m === markerEl);
+          const el = m as HTMLDivElement;
+          el.dataset.isActive = String(club.id === el.dataset.clubId);
         });
       });
 

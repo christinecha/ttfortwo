@@ -141,14 +141,6 @@ body[data-page="map"] {
         .badges { 
           visibility: visible;
         }
-
-        .marker {
-          background-image: url('/assets/marker-black.png');
-  
-          .stars {
-            filter: invert(1);
-          }
-        }
       }
 
       &[data-side="left"] {
@@ -241,6 +233,10 @@ body[data-page="map"] {
         .stars {
           filter: invert(1);
         }
+      }
+
+      &[data-closed="true"] {
+        background-image: url('/assets/marker-grave.png');
       }
 
       &[data-stars="1"] .stars {

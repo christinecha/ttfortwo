@@ -15,6 +15,7 @@ import "../../assets/guides-info.png";
 
 import "../../assets/marker-pink.png";
 import "../../assets/marker-black.png";
+import "../../assets/marker-grave.png";
 import "../../assets/marker-star-1.png";
 import "../../assets/marker-star-2.png";
 import "../../assets/marker-star-3.png";

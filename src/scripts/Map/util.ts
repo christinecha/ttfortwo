@@ -11,6 +11,10 @@ export const getMarkerElement = (club: any) => {
   element.classList.add("marker");
   element.dataset.clubId = club.id;
 
+  if (club.closed) {
+    element.dataset.closed = "true";
+  }
+
   const starsEl = document.createElement("div");
   starsEl.classList.add("stars");
   element.appendChild(starsEl);

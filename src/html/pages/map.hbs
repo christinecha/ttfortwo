@@ -8,35 +8,21 @@
 
   <div class="content center">
     <div class="content-inner">
+      <div class="map-tools">
+        <div class="filters">
+          <div class="filter star">
+            <div class="filter-option" data-stars="0"></div>
+            <div class="filter-option" data-stars="1"></div>
+            <div class="filter-option" data-stars="2"></div>
+            <div class="filter-option" data-stars="3"></div>
+          </div>
+        </div>
+      </div>
       <section class="map" data-is-active="true">
         <img src="/assets/map-border.png" />
         <div class="proportional-spacer"></div>
         <div id="mapbox-container"></div>
       </section>
-
-      <section class="list">
-        <ul>
-          {{#each clubs}}
-            <li class="club" data-slug="{{this.slug}}">
-              {{ this.name }}
-
-              <span class="tags">
-                {{#each this.tags}}
-                  <label>
-                    {{this}}
-                  </label>
-                {{/each}}
-              </span>
-         
-            </li>
-          {{/each}}
-        </ul>
-      </section>
-    </div>
-
-    <div class="map-tools">
-      <button class="map-view-button">map view</button><button class="list-view-button">list view</button>
-      <p>filter | sort</p>
     </div>
   </div>
 </section>

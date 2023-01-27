@@ -1,3 +1,5 @@
+$z-map: 2;
+
 body[data-page="map"] {
   h1 {
     display: flex;
@@ -7,8 +9,64 @@ body[data-page="map"] {
 
   .content-inner {
     display: flex;
+    flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+  }
+
+  .map-tools {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .filters {
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-bottom: 10px;
+
+      label {
+        font-size: 11px;
+      }
+
+      .filter {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+
+        &.star {
+          .filter-option {
+            position: relative;
+            background-image: url('/assets/marker-pink.png');
+
+            &::after {
+              content: "";
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+            }
+
+            &[data-stars="1"]::after{ background-image: url('/assets/marker-star-1.png'); }
+            &[data-stars="2"]::after{ background-image: url('/assets/marker-star-2.png'); }
+            &[data-stars="3"]::after{ background-image: url('/assets/marker-star-3.png'); }
+          }
+        }
+
+        .filter-option {
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+
+          &[data-is-active="false"] {
+            opacity: 0.3;
+          }
+        }
+      }
+    }
   }
 
   section.map {
@@ -24,16 +82,24 @@ body[data-page="map"] {
     }
 
     .proportional-spacer {
-      width: 100%;
-      max-width: 600px;
-      margin: auto;
-
       &::after {
         content: "";
         position: static;
         display: block;
         width: 100%;
         padding-bottom: 2250 / 2600 * 100%
+      }
+    }
+
+    .proportional-spacer, 
+    > img,
+    #mapbox-container {
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+
+      @media (max-width: 1000px) {
+        max-width: 400px;
       }
     }
   
@@ -44,26 +110,32 @@ body[data-page="map"] {
       left: 0;
       right: 0;
       margin: auto;
-      width: 100%;
       height: 100%;
-      max-width: 600px;
     }
 
     > img {
-      z-index: 3; // mapbox logo is 2
+      z-index: $z-map + 2;
       pointer-events: none;
+    }
+
+    .mapboxgl-ctrl-logo {
+      display: none !important;
     }
 
     .club-preview {
       position: absolute;
       top: 20px;
-      z-index: 4;
+      z-index: $z-map + 3;
       background-size: contain;
       width: 300px;
       visibility: hidden;
 
+      @media (max-width: 1000px) {
+        top: calc(100% + 80px) !important;
+      }
+
       &[data-is-active="true"] {
-        z-index: 5;
+        z-index: $z-map + 4;
         visibility: visible;
 
         .badges { 
@@ -137,13 +209,12 @@ body[data-page="map"] {
 
         .inner {
           flex: 1;
-          display: flex;
-          flex-wrap: wrap;
           width: 100%;
           margin-left: 10px;
 
           a {
-            color: currentColor
+            display: block;
+            color: currentColor;
           }
 
           p {
@@ -159,9 +230,13 @@ body[data-page="map"] {
       background-image: url('/assets/marker-pink.png');
       background-size: contain;
 
+      &[data-is-hidden="true"] {
+        display: none;
+      }
+
       &[data-is-active="true"] {
         background-image: url('/assets/marker-black.png');
-        z-index: 4;
+        z-index: $z-map + 1;
 
         .stars {
           filter: invert(1);
@@ -188,47 +263,6 @@ body[data-page="map"] {
       }
     }
   }
-  
-  section.list {
-    max-height: 600px;
-    overflow-y: scroll;
-    flex: 1;
-    display: none;
-
-    &[data-is-active="true"] {
-      display: block;
-    }
-
-    .club {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      cursor: pointer;
-      padding: 10px;
-
-      &:hover {
-        text-decoration: underline;
-      }
-
-      .tags {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        margin: -5px;
-
-        label {
-          display: block;
-          font-size: 10px;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          background-color: yellow;
-          color: #333;
-          margin: 5px;
-        }
-      }
-    }
-  }
-
   
 }
 

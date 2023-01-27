@@ -18,11 +18,12 @@ const tableConfigs = [
       "Distinction": "distinction",
       "Type": "type",
       "Tags": "tags",
-      "Slug": "slug",
+      "Slug": "id",
       "Address": "address",
       "Website": "url",
       "lat": "lat",
       "lng": "lng",
+      "Closed": "closed"
     }
 
   }

@@ -2,8 +2,13 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  width: $menu-trigger-size;
-  height: $menu-trigger-size;
+  width: 80px;
+  height: 80px;
+
+  @media (max-width: 1000px) {
+    width: 60px;
+    height: 60px;
+  }
 
   &:hover {
     img:nth-child(1) {

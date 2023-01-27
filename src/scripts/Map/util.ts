@@ -1,16 +1,21 @@
+export const getStars = (club: any) => {
+  let stars = 0;
+  if (club.distinction === "★") stars = 1;
+  if (club.distinction === "★★") stars = 2;
+  if (club.distinction === "★★★") stars = 3;
+  return stars;
+};
+
 export const getMarkerElement = (club: any) => {
   const element = document.createElement("div");
   element.classList.add("marker");
+  element.dataset.clubId = club.id;
 
   const starsEl = document.createElement("div");
   starsEl.classList.add("stars");
   element.appendChild(starsEl);
 
-  let stars = 0;
-  if (club.distinction === "★") stars = 1;
-  if (club.distinction === "★★") stars = 2;
-  if (club.distinction === "★★★") stars = 3;
-
+  const stars = getStars(club);
   element.dataset.stars = String(stars);
 
   return element;
@@ -23,13 +28,13 @@ enum SIDE {
 let lastSide: SIDE = SIDE.LEFT;
 export const addClubPreview = (club: any, container: HTMLDivElement) => {
   let el = document.querySelector(
-    `.club-preview[data-slug="${club.slug}"]`
+    `.club-preview[data-id="${club.id}"]`
   ) as HTMLDivElement;
 
   if (!el) {
     el = document.createElement("div");
     el.classList.add("club-preview");
-    el.dataset.slug = club.slug;
+    el.dataset.id = club.id;
 
     const badges = document.createElement("div");
     badges.classList.add("badges");
@@ -62,10 +67,11 @@ export const addClubPreview = (club: any, container: HTMLDivElement) => {
     const inner = document.createElement("div");
     inner.classList.add("inner");
     inner.innerHTML = `
-      <a href="${club.url}" target="_blank"><strong>${
-      club.name
-    }</strong></a><br />
+      <a href="${club.url}" target="_blank"><strong>${club.name}</strong></a>
       <p>${club.address || ""}</p>
+      <p>${club.metro || ""}${club.region ? ` • ${club.region}` : ""}${
+      club.country ? ` • ${club.country}` : ""
+    }</p>
     `;
     content.appendChild(inner);
 

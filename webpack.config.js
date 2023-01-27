@@ -28,7 +28,7 @@ const allPages = [
   ...corePages,
   ...Object.entries(clubsById).map(([id, club]) => ({
     title: club.name,
-    path: `/tt/${club.slug || id}`,
+    path: `/tt/${club.id || id}`,
     template: `src/html/pages/template-club.hbs`,
     data: {
       id,

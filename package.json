@@ -28,7 +28,7 @@
     "copy:redirects": "cp ./_redirects public",
     "fetch:airtable": "node ./scripts/fetchAirtableData.js",
     "clean": "rm -rf public/",
-    "build": "netlify dev:exec yarn run fetch:airtable && webpack --mode=production && yarn run copy:redirects",
+    "build": "yarn run fetch:airtable && webpack --mode=production && yarn run copy:redirects",
     "watch": "netlify dev:exec yarn run fetch:airtable && webpack serve",
     "watch:offline": "webpack serve"
   },

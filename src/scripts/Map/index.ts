@@ -3,7 +3,12 @@ import mapboxgl from "mapbox-gl";
 // import { getGeocode, getLatLng } from "use-places-autocomplete";
 // import { getDistance } from "geolib";
 import clubsById from "../../../generated/clubs.json";
-import { getCountryClubsHTML, getStars } from "./util";
+import {
+  getCountryClubsHTML,
+  getLngLat,
+  getStars,
+  sortAlphabetical,
+} from "./util";
 import { Club } from "../types";
 
 // @ts-ignore
@@ -30,8 +35,8 @@ export class Map {
   constructor() {
     const clubs = Object.values(clubsById) as any[];
     this.mappableClubs = clubs.filter((club) => {
-      const { lat, lng } = club as any;
-      return lat && lng;
+      const clubLngLat = getLngLat(club);
+      return !!clubLngLat;
     });
 
     this.initializeMap();
@@ -53,8 +58,7 @@ export class Map {
     });
 
     this.mappableClubs.forEach((club) => {
-      const { lat, lng } = club as any;
-      const clubLngLat = new mapboxgl.LngLat(parseFloat(lng), parseFloat(lat));
+      const clubLngLat = getLngLat(club);
       const markerEl = document.createElement("div");
       markerEl.dataset.id = club.id;
       markerEl.dataset.stars = String(getStars(club));
@@ -62,6 +66,7 @@ export class Map {
 
       markerEl.addEventListener("click", () => {
         this.setActiveClub(club.id);
+        this.centerClub(club.id);
       });
 
       // Create a new marker.
@@ -82,7 +87,9 @@ export class Map {
       clubsByCountry[club.country].push(club);
     });
 
-    Object.entries(clubsByCountry).forEach(([country, clubs]) => {
+    const countries = Object.keys(clubsByCountry);
+    countries.sort(sortAlphabetical).forEach((country) => {
+      const clubs = clubsByCountry[country];
       const countryEl = document.createElement("div");
       countryEl.classList.add("country");
       const html = getCountryClubsHTML(country, clubs);
@@ -95,6 +102,11 @@ export class Map {
       if (!target?.classList.contains("club")) return;
       this.centerClub(target.dataset.id);
       this.setActiveClub(target.dataset.id);
+    });
+
+    const viewAllButton = document.getElementById("view-all-clubs");
+    viewAllButton.addEventListener("click", () => {
+      this.setActiveClub(undefined);
     });
   };
 
@@ -125,22 +137,22 @@ export class Map {
   };
 
   showActiveClub = () => {
+    const containerEl = document.getElementById("club-detail");
     const activeClubEl = document.getElementById("active-club-info");
     const activeClubId = location.pathname.split("/")[2];
     const activeClub = this.mappableClubs.find((c) => c.id === activeClubId);
 
     if (activeClub) {
-      activeClubEl.dataset.isOpen = "true";
-      const html = clubInfoTemplate({ club: activeClub });
-      activeClubEl.innerHTML = html;
+      containerEl.dataset.isOpen = "true";
+      const alreadyActiveId = activeClubEl.dataset.id === activeClubId;
 
-      const viewAllButton = document.getElementById("view-all-clubs");
-
-      viewAllButton.addEventListener("click", () => {
-        this.setActiveClub(undefined);
-      });
+      if (!alreadyActiveId) {
+        activeClubEl.dataset.id = activeClubId;
+        const html = clubInfoTemplate({ club: activeClub });
+        activeClubEl.innerHTML = html;
+      }
     } else {
-      activeClubEl.dataset.isOpen = "false";
+      containerEl.dataset.isOpen = "false";
     }
 
     const markers = Array.from(document.getElementsByClassName("marker"));

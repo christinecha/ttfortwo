@@ -1,3 +1,4 @@
+import mapboxgl from "mapbox-gl";
 import { Club } from "../types";
 
 export const getStars = (club: any) => {
@@ -7,6 +8,14 @@ export const getStars = (club: any) => {
   if (club.distinction === "★★★") stars = 3;
   return stars;
 };
+
+export const getLngLat = (club: Club) => {
+  let { lat, lng } = club;
+  if (!lat || !lng) return null;
+  return new mapboxgl.LngLat(parseFloat(lng), parseFloat(lat));
+};
+
+export const sortAlphabetical = (a: string, b: string) => (a > b ? 1 : -1);
 
 export const getCountryClubsHTML = (country: string, clubs: Club[]) => {
   const countryEl = document.createElement("div");
@@ -20,24 +29,32 @@ export const getCountryClubsHTML = (country: string, clubs: Club[]) => {
     clubsByRegion[region].push(club);
   });
 
-  Object.entries(clubsByRegion).forEach(([region, clubs]) => {
+  const regions = Object.keys(clubsByRegion);
+  regions.sort(sortAlphabetical).forEach((region) => {
+    const clubs = clubsByRegion[region];
     const regionEl = document.createElement("div");
     regionEl.classList.add("region");
     countryEl.appendChild(regionEl);
     const clubsByMetro: Record<string, Club[]> = {};
 
     clubs.forEach((club) => {
-      clubsByMetro[club.metro] = clubsByMetro[club.metro] || [];
-      clubsByMetro[club.metro].push(club);
+      const metro = club.metro || "";
+      clubsByMetro[metro] = clubsByMetro[metro] || [];
+      clubsByMetro[metro].push(club);
     });
 
-    Object.entries(clubsByMetro).forEach(([metro, clubs]) => {
-      const metroEl = document.createElement("div");
-      metroEl.classList.add("metro");
-      countryHTML += `<label data-type="label-s">${
-        region ? `${region} • ` : ""
-      }${metro}</label>`;
-      regionEl.appendChild(metroEl);
+    const metros = Object.keys(clubsByMetro);
+    metros.sort(sortAlphabetical).forEach((metro) => {
+      const clubs = clubsByMetro[metro];
+
+      if (metro) {
+        const metroEl = document.createElement("div");
+        metroEl.classList.add("metro");
+        countryHTML += `<label data-type="label-s">${
+          region ? `${region} • ` : ""
+        }${metro}</label>`;
+        regionEl.appendChild(metroEl);
+      }
 
       clubs.forEach((c) => {
         countryHTML += `<div class="club" data-id="${c.id}" data-type="body-s">

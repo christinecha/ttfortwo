@@ -9,6 +9,10 @@ body[data-page="map"] {
         min-height: 0;
         margin-bottom: 20px;
         padding: 0;
+
+        @media (max-width: 1024px) {
+          flex-direction: column;
+        }
       }
     }
   }
@@ -17,6 +21,11 @@ body[data-page="map"] {
     position: relative;
     flex: 1;
     overflow: hidden;
+
+    @media (max-width: 1024px) {
+      min-height: 200px;
+      height: auto;
+    }
   }
 
   #mapbox-container {
@@ -92,6 +101,11 @@ body[data-page="map"] {
     border-left: 2px solid $gray-1;
     box-sizing: border-box;
 
+    @media (max-width: 1024px) {
+      flex: 1;
+      min-height: 200px;
+    }
+
     &::after, &::before {
       content: "";
       position: absolute;
@@ -115,13 +129,15 @@ body[data-page="map"] {
     }
   }
 
-  #active-club-info {
+  #club-detail {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     @include container-primary();
+    overflow: scroll;
+    @include hide-scrollabars();
 
     &[data-is-open="false"] {
       display: none;
@@ -131,6 +147,13 @@ body[data-page="map"] {
       padding: 10px 0;
       margin-top: -10px;
       margin-bottom: 20px;
+      color: $gray-2;
+      transition: color 100ms linear;
+
+      &:hover {
+        color: $gray-3;
+        text-decoration: underline;
+      }
     }
 
     .club-detail {
@@ -142,22 +165,32 @@ body[data-page="map"] {
         color: $gray-2;
         margin-bottom: 5px; 
       }
+
+      a {
+        white-space: pre-line;
+        .arrow { color: $gray-2; }
+        &:hover {
+          text-decoration: underline;
+          .arrow { color: inherit }
+        }
+      }
     }
   }
 
   #club-list {
     height: 100%;
     overflow: scroll;
-
-    // hide scrollbars
-    -ms-overflow-style: none;  /* Internet Explorer 10+ */
-    scrollbar-width: none;  /* Firefox */
-    &::-webkit-scrollbar { 
-      display: none;  /* Safari and Chrome */
-    }
-
     width: 320px;
     padding: 20px;
+    @include hide-scrollabars();
+
+    @media (max-width: 1024px) {
+      width: 100%;
+    }
+
+    .intro {
+      max-width: 320px;
+    }
 
     .country {
       border-top: 1px solid $gray-2;

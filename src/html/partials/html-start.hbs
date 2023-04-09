@@ -9,17 +9,21 @@
   <body data-page={{ page }}>
     <div class="layout">
       <header>
-        <div class="logo">
-          <a href="/"><img src="/assets/ttfortwo-logo.png" /></a>
-          <h1 data-type="label-s">Table Tennis for Two</h1>
+        <div class="inner">
+          <div class="logo">
+            <a href="/"><img src="/assets/ttfortwo-logo.png" /></a>
+            <h1 data-type="label-s">{{heading}}</h1>
+          </div>
+          <a
+            href="https://discord.gg/JBpCPhRy"
+            target="_blank"
+          >
+            <button>Join Our Discord</button>
+          </a>
         </div>
-        <a
-          href="https://discord.gg/JBpCPhRy"
-          target="_blank"
-        >
-          <button>Join Our Discord</button>
-        </a>
       </header>
+
+      <div>Swipe for content</div>
 
       <main>
         {{> ./menu.hbs }}

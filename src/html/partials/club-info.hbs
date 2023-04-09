@@ -1,19 +1,45 @@
-<button id="view-all-clubs" data-type="label-s">← View All Clubs</button>
+<h4 data-type="title-s">{{club.name}}
+  {{#if club.distinction}}{{club.distinction}}{{/if}}</h4>
+<br />
 
 {{#if club.region}}
-  {{setVar "area" (concat club.metro " • " club.region " • " club.country) }}
+  {{setVar "area" (concat club.metro " • " club.region " • " club.country)}}
 {{else}}
-  {{setVar "area" (concat club.metro " • " club.country) }}
+  {{setVar "area" (concat club.metro " • " club.country)}}
 {{/if}}
+<div class="club-detail">
+  <label data-type="label-s">Nearest Metro Area</label>
+  <p data-type="body-s">{{area}}</p>
+</div>
 
-<h4 data-type="title-s">{{club.name}}</h4>
-<br />
-{{> ./club-detail.hbs key="Nearest Metro Area" value=area }}
-{{> ./club-detail.hbs key="Address" value=club.address }}
-{{> ./club-detail.hbs key="Website" value=club.website }}
+<div class="club-detail">
+  <label data-type="label-s">Address</label>
+
+  {{#if club.googleMapsUrl}}
+    <a
+      data-type="body-s"
+      href="{{club.googleMapsUrl}}"
+      target="_blank"
+    >{{club.address}}<span class="arrow"> →</span></a>
+  {{else}}
+    <p data-type="body-s">{{club.address}}</p>
+  {{/if}}
+</div>
+
+{{#if club.website}}
+  <div class="club-detail">
+    <label data-type="label-s">Website</label>
+    <a
+      data-type="body-s"
+      href="{{club.website}}"
+      target="_blank"
+    >{{club.website}}<span class="arrow"> →</span></a>
+  </div>
+{{/if}}
 
 {{#if club.type}}
-  {{> ./club-detail.hbs key="Club Type" value=(join club.type " • ") }}
+  <div class="club-detail">
+    <label data-type="label-s">Club Type</label>
+    <p data-type="body-s">{{join club.type " • "}}</p>
+  </div>
 {{/if}}
-
-{{> ./club-detail.hbs key="Our Rating" value=club.distinction }}

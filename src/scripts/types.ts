@@ -12,4 +12,5 @@ export type Club = {
   lat: string;
   lng: string;
   closed?: boolean;
+  googleMapsUrl?: string;
 };

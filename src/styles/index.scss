@@ -32,6 +32,8 @@ $gray-4: #151516;
 $black: #000000;
 $blue: #3DCDED;
 
+$menu-width: 240px;
+
 @mixin type-title-s {
   font-size: 22px;
   line-height: 27px;
@@ -71,6 +73,14 @@ $blue: #3DCDED;
 @mixin container-primary {
   padding: 20px;
   background-color: $white;
+}
+
+@mixin hide-scrollabars {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+  &::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
+  }
 }
 
 
@@ -122,16 +132,33 @@ img {
 
 .layout {
   flex: 1;
+  min-width: 0;
   padding: 0 20px;
   display: flex;
   flex-direction: column;
 
+  @media (max-width: 767px) {
+    min-width: calc(100vw + $menu-width + 10px);
+  }
+
   header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     width: 100%;
     height: 70px;
+
+    .inner {
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      @media (max-width: 767px) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 70px;
+      }
+    }
 
     .logo {
       display: flex;
@@ -161,7 +188,7 @@ img {
     align-items: flex-start;
 
     #menu {
-      width: 240px;
+      width: $menu-width;
       margin-right: 10px;
       @include container-primary();
     }
@@ -171,6 +198,7 @@ img {
       display: flex;
       flex-direction: column;
       align-self: stretch;
+      min-width: 0;
     }
 
     section {
@@ -184,6 +212,12 @@ img {
 }
 
 body[data-page="index"] {
+  header .logo h1 {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
   .preview {
     .heading {
       display: flex;

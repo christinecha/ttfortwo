@@ -12,14 +12,16 @@ const corePages = [
     path: "",
     template: `src/html/pages/index.hbs`,
     data: {
+      heading: "Table Tennis for Two",
       clubs: Object.values(clubsById),
     },
   },
   {
-    title: "Where We've Played",
+    title: "TT for Two | Map",
     path: "/map",
     template: `src/html/pages/map.hbs`,
     data: {
+      heading: "Map",
       clubs: Object.values(clubsById),
     },
   },
@@ -31,6 +33,7 @@ const allPages = [
     path: `/map/${club.id || id}`,
     template: `src/html/pages/map.hbs`,
     data: {
+      heading: "Map",
       clubs: Object.values(clubsById),
       activeClub: club,
     },

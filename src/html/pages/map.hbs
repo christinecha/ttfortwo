@@ -7,16 +7,23 @@
 
   <div class="club-list-outer">
     <div 
-      id="active-club-info" 
+      id="club-detail" 
       data-is-open="{{#if activeClub}}true{{else}}false{{/if}}"
     >
-      {{#if activeClub}}
-        {{> ../partials/club-info.hbs club=activeClub }}
-      {{/if}}
+      <button id="view-all-clubs" data-type="label-s">← View All Clubs</button>
+
+      <div 
+        id="active-club-info" 
+        data-id="{{#if activeClub}}{{activeClub.id}}{{/if}}"
+      >
+        {{#if activeClub}}
+          {{> ../partials/club-info.hbs club=activeClub }}
+        {{/if}}
+      </div>
     </div>
 
     <div id="club-list">
-      <p data-type="body-xs"><em>Here is a list of all the table tennis clubs we've visited around the world - {{clubs.length}} in total so far. Where should we go next?</em></p>
+      <p class="intro" data-type="body-xs"><em>Here is a list of all the table tennis clubs we've visited around the world - {{clubs.length}} in total so far. Where should we go next?</em></p>
     </div>
   </div>
 </section>

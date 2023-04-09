@@ -153,19 +153,29 @@ img {
     }
 
     .inner {
-      padding: 20px;
+      height: 100%;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
+      box-sizing: border-box;
 
       @media (max-width: 767px) {
         position: fixed;
         top: 0;
         left: 0;
+        padding: 20px;
         width: 100vw;
         margin-top: -5px;
         height: $header-height-mobile;
+      }
+
+      #swipe-instruction {
+        display: none;
+
+        @media (max-width: 767px) {
+          display: block;
+        }
       }
     }
 

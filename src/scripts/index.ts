@@ -59,6 +59,7 @@ if (location.pathname.indexOf("/map") === 0) {
 
 const vw = window.innerWidth;
 if (vw < 768) {
+  const instructionEl = document.getElementById("swipe-instruction");
   document.scrollingElement.scrollLeft = vw;
 
   let timeout: number;
@@ -66,9 +67,13 @@ if (vw < 768) {
     window.clearTimeout(timeout);
     timeout = window.setTimeout(() => {
       const scrollX = document.scrollingElement.scrollLeft;
-      animateScrollTo([scrollX > 200 ? vw : 0, null], {
+      const showContent = scrollX > 200;
+      animateScrollTo([showContent ? vw : 0, null], {
         elementToScroll: document.scrollingElement,
       });
+      instructionEl.textContent = showContent
+        ? "swipe for menu →"
+        : "← swipe for content";
     }, 100);
   });
 }

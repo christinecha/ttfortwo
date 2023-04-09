@@ -8,6 +8,7 @@ import "../styles/index.scss";
 import { Map } from "./Map";
 import { Club } from "./types";
 import clubsById from "../../generated/clubs.json";
+import animateScrollTo from "animated-scroll-to";
 
 class Homepage {
   constructor() {
@@ -56,6 +57,18 @@ if (location.pathname.indexOf("/map") === 0) {
   new Map();
 }
 
-if (window.innerWidth < 768) {
-  window.scrollX = window.innerWidth;
+const vw = window.innerWidth;
+if (vw < 768) {
+  document.scrollingElement.scrollLeft = vw;
+
+  let timeout: number;
+  window.addEventListener("scroll", (e) => {
+    window.clearTimeout(timeout);
+    timeout = window.setTimeout(() => {
+      const scrollX = document.scrollingElement.scrollLeft;
+      animateScrollTo([scrollX > 200 ? vw : 0, null], {
+        elementToScroll: document.scrollingElement,
+      });
+    }, 100);
+  });
 }

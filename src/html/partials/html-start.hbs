@@ -8,6 +8,19 @@
   </head>
   <body data-page={{ page }}>
     <div class="layout">
-      {{> ./menu.hbs }}
-      <div class="layout-inner">
-        <main>
+      <header>
+        <div class="logo">
+          <img src="/assets/ttfortwo-logo.png" />
+          <h1 data-type="label-s">Table Tennis for Two</h1>
+        </div>
+        <a
+          href="https://discord.gg/JBpCPhRy"
+          target="_blank"
+        >
+          <button>Join Our Discord</button>
+        </a>
+      </header>
+
+      <main>
+        {{> ./menu.hbs }}
+        <div class="layout-inner">

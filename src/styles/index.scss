@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: "Inter";
-  font-weight: 700;
+  font-weight: bold;
   src: local("Inter"), url("/assets/Inter-Bold.ttf") format("opentype");
 }
 
@@ -23,6 +23,57 @@
   }
 }
 
+
+$white: #ffffff;
+$gray-1: #F0F2F3;
+$gray-2: #9AA5AB;
+$gray-3: #33434B;
+$gray-4: #151516;
+$black: #000000;
+$blue: #3DCDED;
+
+@mixin type-title-s {
+  font-size: 22px;
+  line-height: 27px;
+}
+
+@mixin type-body-m {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+@mixin type-body-s {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+@mixin type-body-xs {
+  font-size: 11px;
+  line-height: 16px;
+}
+
+@mixin type-label-l {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@mixin type-label-s {
+  font-weight: 600;
+  font-size: 10px;
+  line-height: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+@mixin container-primary {
+  padding: 20px;
+  background-color: $white;
+}
+
+
 html {
   height: 100%;
 }
@@ -34,28 +85,22 @@ body {
   box-sizing: border-box;
   height: 100%;
   display: flex;
+  background-color: $gray-1;
+}
 
-  > .layout {
-    flex: 1;
-    padding: 20px;
-  }
-
-  &[data-page="index"] {
-    #menu {
-      display: block;
-    }
-  }
-
-  h1 {
-    margin: 0;
-    margin-bottom: 20px;
-  }
+h1, h2, h3, h4, p {
+  margin: 0;
 }
 
 ul {
   padding: 0;
   margin: 0;
   list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
 button {
@@ -65,30 +110,104 @@ button {
   cursor: pointer;
 }
 
-img[alt="About"] { max-width: 190px; }
-img[alt="About"] ~ img { max-width: 280px; }
+img {
+  width: 100%;
+}
 
-img[alt="Map"] { max-width: 150px; }
-img[alt="Map"] ~ img { max-width: 260px; }
+[data-type="body-m"] { @include type-body-m(); } 
+[data-type="body-s"] { @include type-body-s(); } 
+[data-type="body-xs"] { @include type-body-xs(); } 
+[data-type="label-l"] { @include type-label-l(); } 
+[data-type="label-s"] { @include type-label-s(); } 
 
-img[alt="Guides"] { max-width: 200px; }
-img[alt="Guides"] ~ img { max-width: 300px; }
+.layout {
+  flex: 1;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
 
-img[alt="Contact"] { max-width: 230px; }
-img[alt="Contact"] ~ img { max-width: 350px; }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 70px;
 
-@media (max-width: 1000px) {
-  img[alt="About"] { max-width: 150px; }
-  img[alt="About"] ~ img { max-width: 250px; }
-  
-  img[alt="Map"] { max-width: 100px; }
-  img[alt="Map"] ~ img { max-width: 220px; }
-  
-  img[alt="Guides"] { max-width: 160px; }
-  img[alt="Guides"] ~ img { max-width: 300px; }
-  
-  img[alt="Contact"] { max-width: 180px; }
-  img[alt="Contact"] ~ img { max-width: 350px; }
+    .logo {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+      }
+    }
+
+    button {
+      border-radius: 10px;
+      padding: 8px 12px;
+      background-color: $blue;
+      color: $white;
+      @include type-label-s();
+    }
+  }
+
+
+
+  main {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+
+    #menu {
+      width: 240px;
+      margin-right: 10px;
+      @include container-primary();
+    }
+
+    .layout-inner {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-self: stretch;
+    }
+
+    section {
+      @include container-primary();
+
+      &:not(:last-of-type) {
+        margin-bottom: 10px;
+      }
+    }
+  }
+}
+
+body[data-page="index"] {
+  .preview {
+    .heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: $gray-2;
+
+      a:hover {
+        text-decoration: underline;
+        color: $gray-3;
+      }
+    }
+
+    .club-otd-label {
+      color: $gray-3;
+    }
+
+    .club-otd-title {
+      margin-top: 10px;
+      margin-bottom: 8px;
+      color: $gray-3;
+    }
+  }
 }
 
 @import "./menu.scss";

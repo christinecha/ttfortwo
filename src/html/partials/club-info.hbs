@@ -1,0 +1,19 @@
+<button id="view-all-clubs" data-type="label-s">← View All Clubs</button>
+
+{{#if club.region}}
+  {{setVar "area" (concat club.metro " • " club.region " • " club.country) }}
+{{else}}
+  {{setVar "area" (concat club.metro " • " club.country) }}
+{{/if}}
+
+<h4 data-type="title-s">{{club.name}}</h4>
+<br />
+{{> ./club-detail.hbs key="Nearest Metro Area" value=area }}
+{{> ./club-detail.hbs key="Address" value=club.address }}
+{{> ./club-detail.hbs key="Website" value=club.website }}
+
+{{#if club.type}}
+  {{> ./club-detail.hbs key="Club Type" value=(join club.type " • ") }}
+{{/if}}
+
+{{> ./club-detail.hbs key="Our Rating" value=club.distinction }}

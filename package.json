@@ -26,7 +26,6 @@
   },
   "scripts": {
     "copy:redirects": "cp ./_redirects public",
-    "copy:assets": "cp ./src/assets public/assets",
     "fetch:airtable": "node ./scripts/fetchAirtableData.js",
     "clean": "rm -rf public/",
     "build": "netlify dev:exec yarn run fetch:airtable && webpack --mode=production && yarn run copy:redirects",

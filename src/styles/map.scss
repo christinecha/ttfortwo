@@ -1,265 +1,201 @@
-$z-map: 2;
-
 body[data-page="map"] {
-  h1 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .layout{
+    main {
+      min-height: 0;
+
+      section {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+        margin-bottom: 20px;
+        padding: 0;
+      }
+    }
   }
 
-  .content-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+  .club-map {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
   }
 
-  .map-tools {
-    display: flex;
-    justify-content: center;
+  #mapbox-container {
     width: 100%;
+    height: calc(100% + 30px);
 
-    .filters {
-      margin: auto;
+    .marker {
+      width: 20px;
+      height: 20px;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-      padding-bottom: 10px;
+      justify-content: center;
 
-      label {
-        font-size: 11px;
+      &::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        font-size: 6px;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        border-radius: 100%;
+        background-color: $gray-2;
+        box-shadow: $gray-3 0 0 2px;
+        box-sizing: border-box;
+        transition: all 200ms ease-in-out;
+        transform-origin: bottom center;
       }
 
-      .filter {
-        position: relative;
-        display: flex;
-        align-items: center;
-        margin-left: 10px;
+      &[data-stars="1"]::before { content: "★" }
+      &[data-stars="2"]::before { content: "★★" }
+      &[data-stars="3"]::before { content: "★★★" }
 
-        &.star {
-          .filter-option {
-            position: relative;
-            background-image: url('/assets/marker-pink.png');
+      &::after {
+        content: "";
+        background-color: $gray-2;
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        margin: auto;
+        width: 2px;
+        height: 10px;
+        z-index: 1;
+        transform: scaleY(0);
+        transition: all 200ms ease-in-out;
+        transform-origin: bottom center;
+      }
 
-            &::after {
-              content: "";
-              position: absolute;
-              top: 0;
-              left: 0;
-              width: 100%;
-              height: 100%;
-            }
+      &[data-is-active="true"] {
+        z-index: 1;
 
-            &[data-stars="1"]::after{ background-image: url('/assets/marker-star-1.png'); }
-            &[data-stars="2"]::after{ background-image: url('/assets/marker-star-2.png'); }
-            &[data-stars="3"]::after{ background-image: url('/assets/marker-star-3.png'); }
-          }
+        &::before { 
+          bottom: 5px;
+          transform: scale(1.5); 
+          background-color: $white;
+          border: 1px solid $gray-3;
         }
 
-        .filter-option {
-          width: 30px;
-          height: 30px;
-          cursor: pointer;
-
-          &[data-is-active="false"] {
-            opacity: 0.3;
-          }
+        &::after {
+          transform: scaleY(1);
+          background-color: $white;
         }
       }
     }
   }
 
-  section.map {
-    flex: 1;
+  .club-list-outer {
     position: relative;
-    width: 100%;
-    max-width: 1100px;
-    margin: auto;
-    display: none;
+    border-left: 2px solid $gray-1;
+    box-sizing: border-box;
 
-    &[data-is-active="true"] {
-      display: flex;
-    }
-
-    .proportional-spacer {
-      &::after {
-        content: "";
-        position: static;
-        display: block;
-        width: 100%;
-        padding-bottom: 2250 / 2600 * 100%
-      }
-    }
-
-    .proportional-spacer, 
-    > img,
-    #mapbox-container {
-      width: 100%;
-      max-width: 600px;
-      margin: auto;
-
-      @media (max-width: 1000px) {
-        max-width: 400px;
-      }
-    }
-  
-    > img,
-    #mapbox-container {
+    &::after, &::before {
+      content: "";
       position: absolute;
-      top: 0;
       left: 0;
-      right: 0;
-      margin: auto;
-      height: 100%;
-    }
-
-    > img {
-      z-index: $z-map + 2;
+      width: 100%;
+      height: 10px;
+      z-index: 1;
       pointer-events: none;
     }
 
-    .mapboxgl-ctrl-logo {
-      display: none !important;
+    &::after {
+      top: 0;
+      background: linear-gradient($white, rgba(255,255,255,0));
+      border-top: 10px solid $white;
     }
 
-    .club-preview {
-      position: absolute;
-      top: 20px;
-      z-index: $z-map + 3;
-      background-size: contain;
-      width: 300px;
-      visibility: hidden;
+    &::before {
+      bottom: 0;
+      background: linear-gradient(rgba(255,255,255,0), $white);
+      border-bottom: 10px solid $white;
+    }
+  }
 
-      @media (max-width: 1000px) {
-        top: calc(100% + 80px) !important;
-      }
+  #active-club-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @include container-primary();
 
-      &[data-is-active="true"] {
-        z-index: $z-map + 4;
-        visibility: visible;
-
-        .badges { 
-          visibility: visible;
-        }
-      }
-
-      &[data-side="left"] {
-        left: 10px;
-        background-image: url('/assets/speech-bubble-left.png');
-        &:nth-child(4n+1) { left: 40px; }
-      }
-
-      &[data-side="right"] {
-        background-image: url('/assets/speech-bubble-right.png');
-        right: 10px;
-        &:nth-child(4n) { right: 40px; }
-      }
-
-      &::after {
-        content: "";
-        position: static;
-        display: block;
-        width: 100%;
-        padding-bottom: 185 / 500 * 100%
-      }
-
-      .badges {
-        visibility: hidden;
-        position: absolute;
-        bottom: 100%;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        .badge {
-          background-size: contain;
-          background-image: url('/assets/badge-border.png');
-          width: 80px;
-          height: 80px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          img {
-            width: 90%;
-          }
-        }
-      }
-
-      .content {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        padding: 20px;
-        padding-top: 13px;
-        font-size: 11px;
-        display: flex;
-        align-items: center;
-
-        .inner {
-          flex: 1;
-          width: 100%;
-          margin-left: 10px;
-
-          a {
-            display: block;
-            color: currentColor;
-          }
-
-          p {
-            margin: 0;
-          }
-        }
-      }
+    &[data-is-open="false"] {
+      display: none;
     }
 
-    .marker {
-      width: 40px;
-      height: 50px;
-      background-image: url('/assets/marker-pink.png');
-      background-size: contain;
+    #view-all-clubs {
+      padding: 10px 0;
+      margin-top: -10px;
+      margin-bottom: 20px;
+    }
 
-      &[data-is-hidden="true"] {
-        display: none;
-      }
+    .club-detail {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 20px;
 
-      &[data-is-active="true"] {
-        background-image: url('/assets/marker-black.png');
-        z-index: $z-map + 1;
-
-        .stars {
-          filter: invert(1);
-        }
-      }
-
-      &[data-closed="true"] {
-        background-image: url('/assets/marker-grave.png');
-      }
-
-      &[data-stars="1"] .stars {
-        background-image: url('/assets/marker-star-1.png');
-      }
-
-      &[data-stars="2"] .stars {
-        background-image: url('/assets/marker-star-2.png');
-      }
-
-      &[data-stars="3"] .stars {
-        background-image: url('/assets/marker-star-3.png');
-      }
-
-
-      .stars {
-        width: 100%;
-        height: 100%;
-        background-size: contain;
+      label { 
+        color: $gray-2;
+        margin-bottom: 5px; 
       }
     }
   }
-  
+
+  #club-list {
+    height: 100%;
+    overflow: scroll;
+
+    // hide scrollbars
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar { 
+      display: none;  /* Safari and Chrome */
+    }
+
+    width: 320px;
+    padding: 20px;
+
+    .country {
+      border-top: 1px solid $gray-2;
+      margin-top: 20px;
+      padding-top: 20px;
+
+      h4 {
+        color: $gray-2;
+      }
+
+      label {
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 5px;
+      }
+
+      label:first-of-type {
+        margin-top: 10px;
+      }
+
+      .club {
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        cursor: pointer;
+
+        &:hover {
+          text-decoration: underline;
+          span { display: inline; }
+        }
+
+        span {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 

@@ -1,3 +1,5 @@
+import { Club } from "../types";
+
 export const getStars = (club: any) => {
   let stars = 0;
   if (club.distinction === "★") stars = 1;
@@ -6,97 +8,45 @@ export const getStars = (club: any) => {
   return stars;
 };
 
-export const getMarkerElement = (club: any) => {
-  const element = document.createElement("div");
-  element.classList.add("marker");
-  element.dataset.clubId = club.id;
+export const getCountryClubsHTML = (country: string, clubs: Club[]) => {
+  const countryEl = document.createElement("div");
+  countryEl.classList.add("country");
+  let countryHTML = `<h4 data-type="title-s">${country}</h4>`;
+  const clubsByRegion: Record<string, Club[]> = {};
 
-  if (club.closed) {
-    element.dataset.closed = "true";
-  }
-
-  const starsEl = document.createElement("div");
-  starsEl.classList.add("stars");
-  element.appendChild(starsEl);
-
-  const stars = getStars(club);
-  element.dataset.stars = String(stars);
-
-  return element;
-};
-
-enum SIDE {
-  LEFT = "left",
-  RIGHT = "right",
-}
-let lastSide: SIDE = SIDE.LEFT;
-export const addClubPreview = (club: any, container: HTMLDivElement) => {
-  let el = document.querySelector(
-    `.club-preview[data-id="${club.id}"]`
-  ) as HTMLDivElement;
-
-  if (!el) {
-    el = document.createElement("div");
-    el.classList.add("club-preview");
-    el.dataset.id = club.id;
-
-    const badges = document.createElement("div");
-    badges.classList.add("badges");
-    el.appendChild(badges);
-    (club.type || []).forEach((type: string) => {
-      let src;
-      if (type === "Private") src = "/assets/badge-private.png";
-      if (type === "Public") src = "/assets/badge-public.png";
-      if (type === "Permanent") src = "/assets/badge-permanent.png";
-      if (type === "Transient") src = "/assets/badge-transient.png";
-      if (type === "Bar/Restaurant") src = "/assets/badge-bar-restaurant.png";
-      if (type === "Just a Table") src = "/assets/badge-table.png";
-      if (src) {
-        const badge = document.createElement("div");
-        badge.classList.add("badge");
-        const img = document.createElement("img");
-        img.src = src;
-        badge.appendChild(img);
-        badges.appendChild(badge);
-      }
-    });
-
-    const content = document.createElement("div");
-    content.classList.add("content");
-    el.appendChild(content);
-
-    const marker = getMarkerElement(club);
-    content.appendChild(marker);
-
-    const inner = document.createElement("div");
-    inner.classList.add("inner");
-    inner.innerHTML = `
-      <a href="${club.url}" target="_blank"><strong>${club.name}</strong></a>
-      <p>${club.address || ""}</p>
-      <p>${club.metro || ""}${club.region ? ` • ${club.region}` : ""}${
-      club.country ? ` • ${club.country}` : ""
-    }</p>
-    `;
-    content.appendChild(inner);
-
-    const close = document.createElement("button");
-    close.textContent = "X";
-    close.addEventListener("click", () => {
-      container.removeChild(el);
-    });
-
-    const width = 300;
-    el.style.width = `${width}px`;
-    const randTop = Math.floor(Math.random() * (container.clientHeight - 200));
-    el.style.top = `${randTop}px`;
-
-    lastSide = lastSide === SIDE.LEFT ? SIDE.RIGHT : SIDE.LEFT;
-    el.dataset.side = String(lastSide);
-
-    container.appendChild(el);
-  }
-
-  Array.from(container.querySelectorAll(".club-preview")).forEach((e) => {
-    (e as HTMLDivElement).dataset.isActive = String(e === el);
+  clubs.forEach((club) => {
+    const region = club.region || "";
+    clubsByRegion[region] = clubsByRegion[region] || [];
+    clubsByRegion[region].push(club);
   });
+
+  Object.entries(clubsByRegion).forEach(([region, clubs]) => {
+    const regionEl = document.createElement("div");
+    regionEl.classList.add("region");
+    countryEl.appendChild(regionEl);
+    const clubsByMetro: Record<string, Club[]> = {};
+
+    clubs.forEach((club) => {
+      clubsByMetro[club.metro] = clubsByMetro[club.metro] || [];
+      clubsByMetro[club.metro].push(club);
+    });
+
+    Object.entries(clubsByMetro).forEach(([metro, clubs]) => {
+      const metroEl = document.createElement("div");
+      metroEl.classList.add("metro");
+      countryHTML += `<label data-type="label-s">${
+        region ? `${region} • ` : ""
+      }${metro}</label>`;
+      regionEl.appendChild(metroEl);
+
+      clubs.forEach((c) => {
+        countryHTML += `<div class="club" data-id="${c.id}" data-type="body-s">
+          ${c.name}
+          <span>→</span>
+        </div>`;
+      });
+    });
+  });
+
+  return countryHTML;
 };

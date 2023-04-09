@@ -1,28 +1,22 @@
 {{> ../partials/html-start.hbs page="map" }}
 
-<section class="intro">
-  <h1>
-    <img src="/assets/map.png" alt="Map" />
-    <img src="/assets/map-info.png" alt="Where we've played" />
-  </h1>
+<section>
+  <div class="club-map">
+    <div id="mapbox-container"></div>
+  </div>
 
-  <div class="content center">
-    <div class="content-inner">
-      <div class="map-tools">
-        <div class="filters">
-          <div class="filter star">
-            <div class="filter-option" data-stars="0"></div>
-            <div class="filter-option" data-stars="1"></div>
-            <div class="filter-option" data-stars="2"></div>
-            <div class="filter-option" data-stars="3"></div>
-          </div>
-        </div>
-      </div>
-      <section class="map" data-is-active="true">
-        <img src="/assets/map-border.png" />
-        <div class="proportional-spacer"></div>
-        <div id="mapbox-container"></div>
-      </section>
+  <div class="club-list-outer">
+    <div 
+      id="active-club-info" 
+      data-is-open="{{#if activeClub}}true{{else}}false{{/if}}"
+    >
+      {{#if activeClub}}
+        {{> ../partials/club-info.hbs club=activeClub }}
+      {{/if}}
+    </div>
+
+    <div id="club-list">
+      <p data-type="body-xs"><em>Here is a list of all the table tennis clubs we've visited around the world - {{clubs.length}} in total so far. Where should we go next?</em></p>
     </div>
   </div>
 </section>

@@ -35,16 +35,28 @@ tableConfigs.forEach(config => {
   base(config.name).select({ view: config.view }).eachPage((records, fetchNextPage) => {
     console.log(`Found ${records.length} records...`)
 
-    records.forEach((record) => {
-      const data = {}
+    try {
 
-      Object.entries(config.fieldsToProps).forEach(([field, key]) => {
-        const value = record.get(field)
-        data[key] = value
-      })
+      records.forEach((record) => {
+        const data = {}
 
-      tableData[record.id] = data
-    });
+        Object.entries(config.fieldsToProps).forEach(([field, key]) => {
+          const value = record.get(field)
+
+          if (key === config.fieldsToProps['Distinction']) {
+            if (value?.includes("★")) data[key] = value
+            return;
+          }
+
+          data[key] = value
+        })
+
+        tableData[record.id] = data
+      });
+    } catch (e) {
+      console.log('Could not complete page:', e)
+      throw e
+    }
 
     try {
       fetchNextPage();

@@ -1,4 +1,4 @@
-module.exports = function (a, b, options) {
+module.exports = function (a: any, b: any, options: any) {
   if (a == b) {
     return options.fn(this);
   }

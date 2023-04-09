@@ -32,6 +32,11 @@
         }
       }
 
+      &[aria-disabled="true"] {
+        opacity: 0.5;
+        pointer-events: none;
+      }
+
       strong.light {
         font-weight: normal;
       }

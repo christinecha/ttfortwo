@@ -1,8 +1,6 @@
 # english (default)
-/               /index.html        200
-/team/*         /team.html         200
-/practice/*     /practice.html     200
-/contact/*      /contact.html      200
+/               /map.html        200
+/map/*          /map.html         200
 
 # 404
-/*              /index.html        200
+/*              /map.html        200

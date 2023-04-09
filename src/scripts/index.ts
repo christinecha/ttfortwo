@@ -55,3 +55,7 @@ if (location.pathname === "/") {
 if (location.pathname.indexOf("/map") === 0) {
   new Map();
 }
+
+if (window.innerWidth < 768) {
+  window.scrollX = window.innerWidth;
+}

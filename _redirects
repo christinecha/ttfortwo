@@ -1,5 +1,5 @@
 # Normal routes
-/               /map             301
+/               /map             301!
 /map/*          /map.html        200
 
 # 404

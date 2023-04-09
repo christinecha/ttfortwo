@@ -1,6 +1,5 @@
-# english (default)
-/               /map.html        200
-/map/*          /map.html         200
+/               /map             200
+/map/*          /map.html        200
 
 # 404
-/*              /map.html        200
+/*              /                200

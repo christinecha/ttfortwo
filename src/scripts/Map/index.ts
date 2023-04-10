@@ -63,6 +63,7 @@ export class Map {
       const markerEl = document.createElement("div");
       markerEl.dataset.id = club.id;
       markerEl.dataset.stars = String(getStars(club));
+      markerEl.dataset.closed = String(!!club.closed);
       markerEl.classList.add("marker");
 
       markerEl.addEventListener("click", () => {

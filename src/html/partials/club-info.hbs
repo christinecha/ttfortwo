@@ -1,15 +1,19 @@
-<h4 data-type="title-s">{{club.name}}
-  {{#if club.distinction}}{{club.distinction}}{{/if}}</h4>
+<h4 data-type="title-s">
+  {{club.name}}
+  {{#if club.distinction}}{{club.distinction}}{{/if}}
+  {{#if club.closed}}🪦{{/if}}
+</h4>
 <br />
 
-{{#if club.region}}
-  {{setVar "area" (concat club.metro " • " club.region " • " club.country)}}
-{{else}}
-  {{setVar "area" (concat club.metro " • " club.country)}}
-{{/if}}
 <div class="club-detail">
   <label data-type="label-s">Nearest Metro Area</label>
-  <p data-type="body-s">{{area}}</p>
+  <p data-type="body-s">
+    {{#if club.region}}
+      {{concat club.metro " • " club.region " • " club.country}}
+    {{else}}
+      {{concat club.metro " • " club.country}}
+    {{/if}}
+  </p>
 </div>
 
 <div class="club-detail">

@@ -33,6 +33,7 @@ export class Map {
   mappableClubs: Club[];
 
   constructor() {
+    if (document.body.dataset.page !== "map") return;
     const clubs = Object.values(clubsById) as any[];
     this.mappableClubs = clubs.filter((club) => {
       const clubLngLat = getLngLat(club);

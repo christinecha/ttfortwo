@@ -12,6 +12,7 @@ import animateScrollTo from "animated-scroll-to";
 
 class Homepage {
   constructor() {
+    if (document.body.dataset.page !== "index") return;
     this.setClubOfTheDay();
     this.setPostOfTheDay();
   }
@@ -38,13 +39,8 @@ class Homepage {
   setPostOfTheDay = () => {};
 }
 
-if (location.pathname === "/") {
-  new Homepage();
-}
-
-if (location.pathname.indexOf("/map") === 0) {
-  new Map();
-}
+new Homepage();
+new Map();
 
 const vw = window.innerWidth;
 if (vw < 768) {

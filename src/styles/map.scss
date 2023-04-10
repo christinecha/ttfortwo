@@ -217,16 +217,13 @@ body[data-page="map"] {
 
       h4 {
         color: $gray-2;
+        margin-bottom: 10px;
       }
 
       label {
         display: block;
         margin-top: 20px;
         margin-bottom: 5px;
-      }
-
-      label:first-of-type {
-        margin-top: 10px;
       }
 
       .club {

@@ -258,13 +258,17 @@ body[data-page="index"] {
     }
 
     .club-otd-label {
-      color: $gray-3;
+      color: $gray-2;
     }
 
-    .club-otd-title {
-      margin-top: 10px;
-      margin-bottom: 8px;
+    #club-otd {
       color: $gray-3;
+      
+      a:hover { text-decoration: underline; }
+      h4 {
+        margin-top: 10px;
+        margin-bottom: 8px;
+      }
     }
   }
 }

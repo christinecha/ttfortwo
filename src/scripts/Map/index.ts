@@ -116,7 +116,10 @@ export class Map {
     const { lat, lng } = club as any;
     const clubLngLat = new mapboxgl.LngLat(parseFloat(lng), parseFloat(lat));
     this.map.setCenter(clubLngLat);
-    this.map.zoomTo(10);
+
+    if (this.map.getZoom() < 5) {
+      this.map.zoomTo(5);
+    }
 
     const markers = Array.from(document.getElementsByClassName("marker"));
     markers.forEach((m: HTMLDivElement) => {

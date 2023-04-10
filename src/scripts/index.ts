@@ -61,6 +61,7 @@ const vw = window.innerWidth;
 if (vw < 768) {
   const instructionEl = document.getElementById("swipe-instruction");
   document.scrollingElement.scrollLeft = vw;
+  document.body.dataset.loaded = "true";
 
   let timeout: number;
   window.addEventListener("scroll", (e) => {
@@ -76,4 +77,6 @@ if (vw < 768) {
         : "← swipe for content";
     }, 100);
   });
+} else {
+  document.body.dataset.loaded = "true";
 }

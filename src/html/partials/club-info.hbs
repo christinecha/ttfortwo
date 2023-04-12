@@ -47,3 +47,10 @@
     <p data-type="body-s">{{join club.type " • "}}</p>
   </div>
 {{/if}}
+
+{{#if club.notes}}
+  <div class="club-detail">
+    <label data-type="label-s">Our Notes</label>
+    <p data-type="body-s">{{{club.notes}}}</p>
+  </div>
+{{/if}}

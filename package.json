@@ -36,6 +36,7 @@
     "airtable": "^0.11.6",
     "animated-scroll-to": "^2.3.0",
     "axios": "^0.24.0",
-    "mapbox-gl": "^2.12.0"
+    "mapbox-gl": "^2.12.0",
+    "showdown": "^2.1.0"
   }
 }

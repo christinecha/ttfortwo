@@ -1,77 +1,102 @@
-var { AIRTABLE_API_TOKEN } = process.env
+var { AIRTABLE_API_TOKEN } = process.env;
 
-var Airtable = require('airtable');
-var path = require('path')
-var fs = require('fs')
-var base = new Airtable({ apiKey: AIRTABLE_API_TOKEN }).base('app6T9v0vS5vnqzv5');
+var Airtable = require("airtable");
+var path = require("path");
+var fs = require("fs");
+var showdown = require("showdown");
+var base = new Airtable({ apiKey: AIRTABLE_API_TOKEN }).base(
+  "app6T9v0vS5vnqzv5"
+);
+
+const converter = new showdown.Converter();
 
 const tableConfigs = [
   {
-    filename: 'clubs',
-    name: 'Table Tennis Clubs',
-    view: 'Clubs',
+    filename: "clubs",
+    name: "Table Tennis Clubs",
+    view: "Clubs",
     fieldsToProps: {
-      "Name": "name",
-      "Country": "country",
-      "Region": "region",
+      Name: "name",
+      Country: "country",
+      Region: "region",
       "Metro Area": "metro",
-      "Distinction": "distinction",
-      "Type": "type",
-      "Tags": "tags",
-      "Id": "id",
-      "Address": "address",
-      "Website": "url",
-      "Lat": "lat",
-      "Lng": "lng",
+      Distinction: "distinction",
+      Type: "type",
+      Tags: "tags",
+      Id: "id",
+      Address: "address",
+      Website: "url",
+      Lat: "lat",
+      Lng: "lng",
       "Google Maps URL": "googleMapsUrl",
-      "Closed": "closed"
-    }
+      Closed: "closed",
+      Notes: "notes",
+    },
+  },
+];
 
-  }
-]
+tableConfigs.forEach((config) => {
+  const tableData = {};
 
-tableConfigs.forEach(config => {
-  const tableData = {}
+  base(config.name)
+    .select({ view: config.view })
+    .eachPage(
+      (records, fetchNextPage) => {
+        console.log(`Found ${records.length} records...`);
 
-  base(config.name).select({ view: config.view }).eachPage((records, fetchNextPage) => {
-    console.log(`Found ${records.length} records...`)
+        try {
+          records.forEach((record) => {
+            const data = {};
 
-    try {
+            Object.entries(config.fieldsToProps).forEach(([field, key]) => {
+              const value = record.get(field);
 
-      records.forEach((record) => {
-        const data = {}
+              if (key === config.fieldsToProps["Distinction"]) {
+                if (value?.includes("★")) data[key] = value;
+                return;
+              }
 
-        Object.entries(config.fieldsToProps).forEach(([field, key]) => {
-          const value = record.get(field)
+              if (key === config.fieldsToProps["Notes"]) {
+                data[key] = converter.makeHtml(value);
+                return;
+              }
 
-          if (key === config.fieldsToProps['Distinction']) {
-            if (value?.includes("★")) data[key] = value
-            return;
-          }
+              data[key] = value;
+            });
 
-          data[key] = value
-        })
+            tableData[record.id] = data;
+          });
+        } catch (e) {
+          console.log("Could not complete page:", e);
+          throw e;
+        }
 
-        tableData[record.id] = data
-      });
-    } catch (e) {
-      console.log('Could not complete page:', e)
-      throw e
-    }
+        try {
+          fetchNextPage();
+        } catch (e) {
+          console.log("Could not fetch next page:", e);
+        }
+      },
+      (err) => {
+        if (err) {
+          console.error(err);
+          return;
+        }
 
-    try {
-      fetchNextPage();
-    } catch (e) { console.log('Could not fetch next page:', e) }
-  }, (err) => {
-    if (err) { console.error(err); return; }
+        console.log("Writing to file...");
+        const generatedPath = path.resolve(__dirname, "../generated");
+        const generatedClubsPath = path.resolve(
+          generatedPath,
+          `./${config.filename}.json`
+        );
 
-    console.log("Writing to file...")
-    const generatedPath = path.resolve(__dirname, '../generated')
-    const generatedClubsPath = path.resolve(generatedPath, `./${config.filename}.json`)
-
-    try {
-      fs.mkdirSync(generatedPath)
-    } catch { }
-    fs.writeFileSync(generatedClubsPath, JSON.stringify(tableData, null, 2))
-  })
-})
+        try {
+          fs.mkdirSync(generatedPath);
+        } catch {}
+        fs.writeFileSync(
+          generatedClubsPath,
+          JSON.stringify(tableData, null, 2)
+        );
+      }
+    );
+});

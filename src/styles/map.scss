@@ -208,6 +208,12 @@ body[data-page="map"] {
         max-width: 500px;
         margin-bottom: 5px;
       }
+
+      ul {
+        list-style: circle;
+        @include type-body-s();
+        padding-left: 20px;
+      }
     }
   }
 

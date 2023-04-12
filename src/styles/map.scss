@@ -1,5 +1,5 @@
 body[data-page="map"] {
-  .layout{
+  .layout {
     main {
       min-height: 0;
 
@@ -37,6 +37,7 @@ body[data-page="map"] {
       font-size: 9px;
       line-height: 14px;
       pointer-events: none;
+      z-index: 1;
     }
   }
 
@@ -71,10 +72,18 @@ body[data-page="map"] {
         transform-origin: bottom center;
       }
 
-      &[data-stars="1"]::before { content: "★" }
-      &[data-stars="2"]::before { content: "★★" }
-      &[data-stars="3"]::before { content: "★★★" }
-      &[data-closed="true"]::before { content: "🪦" }
+      &[data-stars="1"]::before {
+        content: "★";
+      }
+      &[data-stars="2"]::before {
+        content: "★★";
+      }
+      &[data-stars="3"]::before {
+        content: "★★★";
+      }
+      &[data-closed="true"]::before {
+        content: "🪦";
+      }
 
       &::after {
         content: "";
@@ -95,9 +104,9 @@ body[data-page="map"] {
       &[data-is-active="true"] {
         z-index: 1;
 
-        &::before { 
+        &::before {
           bottom: 5px;
-          transform: scale(1.5); 
+          transform: scale(1.5);
           background-color: $white;
           border: 1px solid $gray-3;
         }
@@ -120,7 +129,8 @@ body[data-page="map"] {
       min-height: 200px;
     }
 
-    &::after, &::before {
+    &::after,
+    &::before {
       content: "";
       position: absolute;
       left: 0;
@@ -132,13 +142,13 @@ body[data-page="map"] {
 
     &::after {
       top: 0;
-      background: linear-gradient($white, rgba(255,255,255,0));
+      background: linear-gradient($white, rgba(255, 255, 255, 0));
       border-top: 10px solid $white;
     }
 
     &::before {
       bottom: 0;
-      background: linear-gradient(rgba(255,255,255,0), $white);
+      background: linear-gradient(rgba(255, 255, 255, 0), $white);
       border-bottom: 10px solid $white;
     }
   }
@@ -175,17 +185,21 @@ body[data-page="map"] {
       flex-direction: column;
       margin-bottom: 20px;
 
-      label { 
+      label {
         color: $gray-2;
-        margin-bottom: 5px; 
+        margin-bottom: 5px;
       }
 
       a {
         white-space: pre-line;
-        .arrow { color: $gray-2; }
+        .arrow {
+          color: $gray-2;
+        }
         &:hover {
           text-decoration: underline;
-          .arrow { color: inherit }
+          .arrow {
+            color: inherit;
+          }
         }
       }
     }
@@ -235,7 +249,9 @@ body[data-page="map"] {
 
         &:hover {
           text-decoration: underline;
-          span { display: inline; }
+          span {
+            display: inline;
+          }
         }
 
         span {
@@ -245,6 +261,3 @@ body[data-page="map"] {
     }
   }
 }
-
-
-
